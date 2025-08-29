@@ -19,6 +19,7 @@ def clean_data(df):
     #drop null values
     df = df.fillna(0)
     return df
+
 #Data Analysis:
 "Dta analysis means to perform the operation on data using the userdefine or inbuilt functions like find average,mean etc."
 def analyze_data(df):
