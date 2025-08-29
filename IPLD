@@ -1,0 +1,78 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import openpyxl
+
+# A. Load the Excel file
+def load_data(filepath):
+    return pd.read_excel(filepath)
+
+# B. Data Cleaning
+def clean_data(df):
+    print("Missing values per column:\n", df.isnull().sum())
+    df = df.drop_duplicates()
+    df['Matches'] = df['Matches'].fillna(0).astype(int)
+    df = df.fillna(0)
+    return df
+
+# C. Data Analysis
+def analyze_data(df):
+    print("Average Price:", df['Price'].mean())
+    print("Brand Distribution:\n", df['Brand'].value_counts())
+    print("Max Rating:", df['Rating'].max())
+    print("Min Rating:", df['Rating'].min())
+    grouped = df.groupby('Team')['Runs'].sum()
+    print("Total Runs by Team:\n", grouped)
+    return df.sort_values(by='Rating', ascending=False)
+
+# D. Save cleaned data
+def save_data(df, output_path):
+    df.to_excel(output_path, index=False)
+
+# E. Visualization
+def plot_brand_distribution(df):
+    df['Brand'].value_counts().plot(kind='bar', title='Brand Distribution')
+    plt.xlabel('Brand')
+    plt.ylabel('Count')
+    plt.tight_layout()
+    plt.show()
+
+def plot_rating_distribution(df):
+    df['Rating'].value_counts().plot(kind='pie', autopct='%1.1f%%', title='Rating Distribution')
+    plt.ylabel('')
+    plt.tight_layout()
+    plt.show()
+
+def plot_runs_vs_matches(df):
+    plt.plot(df['Matches'], df['Runs'], marker='o')
+    plt.title('Runs vs Matches')
+    plt.xlabel('Matches')
+    plt.ylabel('Runs')
+    plt.grid(True)
+    plt.show()
+
+def plot_matches_by_player(df):
+    sns.scatterplot(x='Player', y='Matches', data=df)
+    plt.title('Matches Played by Each Player')
+    plt.xlabel('Player')
+    plt.ylabel('Matches')
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    plt.show()
+
+# Main Execution
+def main():
+    df = load_data('ipl_palyers.xlsx')
+    df = clean_data(df)
+    df_sorted = analyze_data(df)
+    save_data(df_sorted, 'ipl_palyers_cleaned.xlsx')
+    
+    # Charts
+    plot_brand_distribution(df)
+    plot_rating_distribution(df)
+    plot_runs_vs_matches(df)
+    plot_matches_by_player(df)
+
+# Run the program
+if __name__ == "__main__":
+    main()
