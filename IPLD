@@ -6,10 +6,11 @@ import openpyxl
 # A. Load the Excel file
 def load_data(filepath):
     return pd.read_excel(filepath)
-
+"Function to load a Excel file and return a read_excel(filepath) to a main"
 # B. Data Cleaning
 def clean_data(df):
     print("Missing values per column:\n", df.isnull().sum())
+    #remove duplicate rows:
     df = df.drop_duplicates()
     df['Matches'] = df['Matches'].fillna(0).astype(int)
     df = df.fillna(0)
