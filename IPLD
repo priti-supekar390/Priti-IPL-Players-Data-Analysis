@@ -4,7 +4,7 @@ import seaborn as sns
 import openpyxl
 
 #Load the file
-filepath="ipl_palyers.xlsx"
+filepath="ipl_players.xlsx"
 df=pd.read_excel(filepath)
 "Load excel file "
 
@@ -24,21 +24,16 @@ def drop_Duplicate_rows(df):
     df_cleaned = df.drop_duplicates()
     return df_cleaned
 
-#3.Change datatype:
-print("Change the dtatype of Matches column...")
-df['Matches'] = df['Matches'].fillna(0).astype(int)
+#3.Change datatatype:
+def changetype(df):
+  print("Change the dtatype of Matches column...")
+  df['Matches'] = df['Matches'].fillna(0).astype(int)
+  return df
 
 #4.drop or fill null values
 def simple_fillna(df):
-    df = df.fillna({
-        'players':'unkown',
-        'maches':0,
-        'Runs':0,
-        'Rating':0,
-        'price':0,
-        'Brand':'Unkown',
-        'Team':'Unkown',
-    })
+    df = df.fillna(0)
+       
     print("Fill NULL values")
     return df
 
@@ -63,6 +58,8 @@ def analyze_data(df):
     
     #retiurn the sort data to the main
     return df.sort_values(by='Rating', ascending=False)
+    print("Sort the data According to the rating")
+
 
 #save the modified file:
 def save_data(df, output_path):
@@ -109,9 +106,10 @@ def main(df):
 
     missing_values(df)
     df=drop_Duplicate_rows(df)
+    df=changetype(df)
     df=simple_fillna(df)
     df_sorted = analyze_data(df)
-    save_data(df_sorted, 'ipl_palyers_cleaned.xlsx')
+    save_data(df_sorted, 'ipl_players_cleaned.xlsx')
     #charts
     plot_brand_distribution(df)
     plot_rating_distribution(df)
