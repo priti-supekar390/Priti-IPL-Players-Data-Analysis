@@ -4,30 +4,29 @@ import seaborn as sns
 import openpyxl
 import tkinter as tk
 from tkinter import filedialog , messagebox
+# GUI for file upload and preview
 def upload_file():
-    file_path=filedialog.askopenfilename(title="select Excel file", filetypes=[("excel files","*.xlsx*.xls")])
-    
+    file_path = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel files", "*.xlsx *.xls")])
     if file_path:
         try:
-            df=pd.read_excel(file_path)
-            preview_data=df.head().tostrimng(index=false)
+            df = pd.read_excel(file_path)
+            preview_data = df.head().to_string(index=False)
 
-            text_box.delete("1.0",tk.END)
-            text_box.insert(tk.END,preview_data)
+            text_box.delete("1.0", tk.END)
+            text_box.insert(tk.END, preview_data)
 
         except Exception as e:
-            messagebox.showerror("Error"f"An error occured:{e}")
+            messagebox.showerror("Error", f"An error occurred: {e}")
 
-root=tk.Tk()
-root.title("Excel DAta preview")
-root.geometry("600 X 400")
+root = tk.Tk()
+root.title("Excel Data Preview")
+root.geometry("600x400")
 
-upload_btn=tk.button(root,text="upload files",command=upload_file,font=("Arial",12))
+upload_btn = tk.Button(root, text="Upload File", command=upload_file, font=("Arial", 12))
 upload_btn.pack(pady=10)
 
-text_box=tk.Text(root,wrap=tk.WORD,font=("Courier",10))
-text_box.pack(expand=true,fill="both",padx=10,pady=10)
-"Firstly we can add the tkinter file for avoid the terminal output"
+text_box = tk.Text(root, wrap=tk.WORD, font=("Courier", 10))
+text_box.pack(expand=True, fill="both", padx=10, pady=10)
 
 
 #Load the Excel file
