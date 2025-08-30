@@ -19,6 +19,21 @@ def upload_file():
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
+def save_file():
+    global df
+    if df is not None:
+        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
+        if file_path:
+            try:
+                df.to_excel(file_path, index=False)
+                messagebox.showinfo("Saved", "File saved successfully!")
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to save file:\n{e}")
+    else:
+        messagebox.showwarning("No Data", "Please upload a file first.")
+
+# GUI setup
+
 root = tk.Tk()
 root.title("Excel Data Preview")
 root.geometry("600x400")
@@ -26,9 +41,13 @@ root.geometry("600x400")
 upload_btn = tk.Button(root, text="Upload File", command=upload_file, font=("Arial", 12))
 upload_btn.pack(pady=10)
 
+save_btn = tk.Button(root, text="Save File", command=save_file, font=("Arial", 12))
+save_btn.pack(pady=10)
+
 text_box = tk.Text(root, wrap=tk.WORD, font=("Courier", 10))
 text_box.pack(expand=True, fill="both", padx=10, pady=10)
 
+root.mainloop()
 
 #Load the file
 filepath="ipl_palyers.xlsx"
