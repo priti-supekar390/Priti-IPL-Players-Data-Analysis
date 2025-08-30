@@ -4,7 +4,8 @@ import seaborn as sns
 import openpyxl
 import tkinter as tk
 from tkinter import filedialog , messagebox
-# GUI for file upload and preview
+
+# GUI for file upload:
 def upload_file():
     file_path = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel files", "*.xlsx *.xls")])
     if file_path:
@@ -29,22 +30,32 @@ text_box = tk.Text(root, wrap=tk.WORD, font=("Courier", 10))
 text_box.pack(expand=True, fill="both", padx=10, pady=10)
 
 
-#Load the Excel file
-def load_data(filepath):
-    return pd.read_excel(filepath)
+#Load the file
+filepath="ipl_palyers.xlsx"
+df=pd.read_excel(filepath)
 "Load excel file "
 
 #Data Cleaning:
 "cleaning data by using the inbuilt functions isnull().sum(),drop_duplicates(),fillna(0),astype(datatype)"
-def clean_data(df):
-    #1.missing values:
-    print("Missing values per column:\n", df.isnull().sum())
-    #2.Drop Duplicate rows
-    df = df.drop_duplicates()
-    #3.Change datatype:
-    df['Matches'] = df['Matches'].fillna(0).astype(int)
-    #drop null values
+
+#1.find the missing values:
+def missing_values(df):
+    print("Missing values column wise:\n")
+    missing = df.isnull().sum()
+    print(missing)
+    return missing
+#2.Drop Duplicate rows
+def drop_Duplicate_rows(df):
+    print("Dropping duplicate rows:")
+    df_cleaned = df.drop_duplicates()
+    return df_cleaned
+#3.Change datatype:
+print("Change the dtatype of Matches column...")
+df['Matches'] = df['Matches'].fillna(0).astype(int)
+#4.drop or fill null values
+def simple_fillna(df):
     df = df.fillna(0)
+    print("Fill NULL values with 0")
     return df
 
 #Data Analysis:
@@ -105,9 +116,11 @@ def plot_matches_by_player(df):
     plt.show()
 
 #Main Function:
-def main():
-    df = load_data('ipl_palyers.xlsx')
-    df = clean_data(df)
+def main(df):
+
+    missing_values(df)
+    df=drop_Duplicate_rows(df)
+    df=simple_fillna(df)
     df_sorted = analyze_data(df)
     save_data(df_sorted, 'ipl_palyers_cleaned.xlsx')
     plot_brand_distribution(df)
@@ -116,4 +129,4 @@ def main():
     plot_matches_by_player(df)
 
 if __name__ == "__main__":
-    main()
+    main(df)
