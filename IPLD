@@ -2,6 +2,33 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import openpyxl
+import tkinter as tk
+from tkinter import filedialog , messagebox
+def upload_file():
+    file_path=filedialog.askopenfilename(title="select Excel file", filetypes=[("excel files","*.xlsx*.xls")])
+    
+    if file_path:
+        try:
+            df=pd.read_excel(file_path)
+            preview_data=df.head().tostrimng(index=false)
+
+            text_box.delete("1.0",tk.END)
+            text_box.insert(tk.END,preview_data)
+
+        except Exception as e:
+            messagebox.showerror("Error"f"An error occured:{e}")
+
+root=tk.Tk()
+root.title("Excel DAta preview")
+root.geometry("600 X 400")
+
+upload_btn=tk.button(root,text="upload files",command=upload_file,font=("Arial",12))
+upload_btn.pack(pady=10)
+
+text_box=tk.Text(root,wrap=tk.WORD,font=("Courier",10))
+text_box.pack(expand=true,fill="both",padx=10,pady=10)
+"Firstly we can add the tkinter file for avoid the terminal output"
+
 
 #Load the Excel file
 def load_data(filepath):
