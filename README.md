@@ -1,4 +1,4 @@
-This is My Internship project. The project is on Data Analysis and The Topic I have Choosen  is are  IPL-Players, And I want to Perform a many  Operations on This IPL players:
+This is My Internship project. The project is on Data Analysis and The Topic I have Choosen  is are  IPL-Players, And I've  Perform a many  Operations on This IPL players:
 First i create the Excel file, The name of file is ipl_Players.
 Then I Load the ipl_players (Excel file) in my python code.
 Operations Iwant to perform on Excel file are:
