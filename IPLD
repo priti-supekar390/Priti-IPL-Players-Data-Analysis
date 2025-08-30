@@ -2,52 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import openpyxl
-import tkinter as tk
-from tkinter import filedialog , messagebox
-
-# GUI for file upload:
-def upload_file():
-    file_path = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel files", "*.xlsx *.xls")])
-    if file_path:
-        try:
-            df = pd.read_excel(file_path)
-            preview_data = df.head().to_string(index=False)
-
-            text_box.delete("1.0", tk.END)
-            text_box.insert(tk.END, preview_data)
-
-        except Exception as e:
-            messagebox.showerror("Error", f"An error occurred: {e}")
-
-def save_file():
-    global df
-    if df is not None:
-        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx")])
-        if file_path:
-            try:
-                df.to_excel(file_path, index=False)
-                messagebox.showinfo("Saved", "File saved successfully!")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to save file:\n{e}")
-    else:
-        messagebox.showwarning("No Data", "Please upload a file first.")
-
-# GUI setup
-
-root = tk.Tk()
-root.title("Excel Data Preview")
-root.geometry("600x400")
-
-upload_btn = tk.Button(root, text="Upload File", command=upload_file, font=("Arial", 12))
-upload_btn.pack(pady=10)
-
-save_btn = tk.Button(root, text="Save File", command=save_file, font=("Arial", 12))
-save_btn.pack(pady=10)
-
-text_box = tk.Text(root, wrap=tk.WORD, font=("Courier", 10))
-text_box.pack(expand=True, fill="both", padx=10, pady=10)
-
-root.mainloop()
 
 #Load the file
 filepath="ipl_palyers.xlsx"
@@ -63,18 +17,29 @@ def missing_values(df):
     missing = df.isnull().sum()
     print(missing)
     return missing
+
 #2.Drop Duplicate rows
 def drop_Duplicate_rows(df):
     print("Dropping duplicate rows:")
     df_cleaned = df.drop_duplicates()
     return df_cleaned
+
 #3.Change datatype:
 print("Change the dtatype of Matches column...")
 df['Matches'] = df['Matches'].fillna(0).astype(int)
+
 #4.drop or fill null values
 def simple_fillna(df):
-    df = df.fillna(0)
-    print("Fill NULL values with 0")
+    df = df.fillna({
+        'players':'unkown',
+        'maches':0,
+        'Runs':0,
+        'Rating':0,
+        'price':0,
+        'Brand':'Unkown',
+        'Team':'Unkown',
+    })
+    print("Fill NULL values")
     return df
 
 #Data Analysis:
@@ -82,15 +47,20 @@ def simple_fillna(df):
 def analyze_data(df):
     #1.Average price of palyers:
     print("Average Price:", df['Price'].mean())
+    
     #2.count the players based on brand:
     print("Brand Distribution:\n", df['Brand'].value_counts())
+    
     #3.maximum rating of the player:
     print("Max Rating:", df['Rating'].max())
+    
     #4.minimum rating of the player:
     print("Min Rating:", df['Rating'].min())
+    
     #Group the values acoording to the team
     grouped = df.groupby('Team')['Runs'].sum()
     print("Total Runs by Team:\n", grouped)
+    
     #retiurn the sort data to the main
     return df.sort_values(by='Rating', ascending=False)
 
@@ -110,7 +80,7 @@ def plot_brand_distribution(df):
 
 #Pie Chart:
 def plot_rating_distribution(df):
-    df['Rating'].value_counts().plot(kind='pie', autopct='%1.1f%%', title='Rating Distribution')
+    df['Rating'].value_counts().plot(kind='pie',autopct='%1.1f%%',title='Rating Distribution')
     plt.ylabel('')
     plt.tight_layout()
     plt.show()
@@ -142,6 +112,7 @@ def main(df):
     df=simple_fillna(df)
     df_sorted = analyze_data(df)
     save_data(df_sorted, 'ipl_palyers_cleaned.xlsx')
+    #charts
     plot_brand_distribution(df)
     plot_rating_distribution(df)
     plot_runs_vs_matches(df)
