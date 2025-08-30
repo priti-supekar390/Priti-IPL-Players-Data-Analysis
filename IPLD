@@ -60,7 +60,6 @@ def analyze_data(df):
     return df.sort_values(by='Rating', ascending=False)
     print("Sort the data According to the rating")
 
-
 #save the modified file:
 def save_data(df, output_path):
    df.to_excel(output_path, index=False)
