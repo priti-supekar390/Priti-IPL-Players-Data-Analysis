@@ -51,12 +51,14 @@ def plot_brand_distribution(df):
     plt.ylabel('Count')
     plt.tight_layout()
     plt.show()
+
 #Pie Chart:
 def plot_rating_distribution(df):
     df['Rating'].value_counts().plot(kind='pie', autopct='%1.1f%%', title='Rating Distribution')
     plt.ylabel('')
     plt.tight_layout()
     plt.show()
+
 #Line chart:
 def plot_runs_vs_matches(df):
     plt.plot(df['Matches'], df['Runs'], marker='o')
@@ -65,6 +67,7 @@ def plot_runs_vs_matches(df):
     plt.ylabel('Runs')
     plt.grid(True)
     plt.show()
+
 #Scatter plot:
 def plot_matches_by_player(df):
     sns.scatterplot(x='Player', y='Matches', data=df)
@@ -74,6 +77,7 @@ def plot_matches_by_player(df):
     plt.xticks(rotation=90)
     plt.tight_layout()
     plt.show()
+
 #Main Function:
 def main():
     df = load_data('ipl_palyers.xlsx')
@@ -84,5 +88,6 @@ def main():
     plot_rating_distribution(df)
     plot_runs_vs_matches(df)
     plot_matches_by_player(df)
+
 if __name__ == "__main__":
     main()
