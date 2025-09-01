@@ -6,6 +6,7 @@ import openpyxl
 #Load the file
 filepath="ipl_players.xlsx"
 df=pd.read_excel(filepath)
+print(df)
 "Load excel file "
 
 #Data Cleaning:
@@ -20,13 +21,13 @@ def missing_values(df):
 
 #2.Drop Duplicate rows
 def drop_Duplicate_rows(df):
-    print("Dropping duplicate rows:")
+    print("Dropping duplicate rows:\n")
     df_cleaned = df.drop_duplicates()
     return df_cleaned
 
 #3.Change datatatype:
 def changetype(df):
-  print("Change the dtatype of Matches column...")
+  print("Change the dtatype of Matches column...\n")
   df['Matches'] = df['Matches'].fillna(0).astype(int)
   return df
 
@@ -34,7 +35,7 @@ def changetype(df):
 def simple_fillna(df):
     df = df.fillna(0)
        
-    print("Fill NULL values")
+    print("Fill NULL values\n")
     return df
 
 #Data Analysis:
@@ -58,7 +59,7 @@ def analyze_data(df):
     
     #retiurn the sort data to the main
     return df.sort_values(by='Rating', ascending=False)
-    print("Sort the data According to the rating")
+    print("Sort the data According to the rating\n")
 
 #save the modified file:
 def save_data(df, output_path):
@@ -76,7 +77,7 @@ def plot_brand_distribution(df):
 
 #Pie Chart:
 def plot_rating_distribution(df):
-    df['Rating'].value_counts().plot(kind='pie',autopct='%1.1f%%',title='Rating Distribution')
+    df['Rating'].value_counts().plot(kind='pie',autopct='%0.1f%%',title='Rating Distribution')
     plt.ylabel('')
     plt.tight_layout()
     plt.show()
