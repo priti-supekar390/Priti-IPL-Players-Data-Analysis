@@ -6,7 +6,6 @@ import openpyxl
 #Load the file
 filepath="ipl_players.xlsx"
 df=pd.read_excel(filepath)
-print(df)
 "Load excel file "
 
 #Data Cleaning:
