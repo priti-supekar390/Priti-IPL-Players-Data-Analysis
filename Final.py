@@ -7,6 +7,7 @@ filepath="Sales Forecasting.xlsx"
 df=pd.read_excel(filepath)
 print(df)
 
+#Data Cleaning
 def missing_values(df):
     print("Missing values column wise\n")
     missing= df.isnull().sum()
@@ -29,6 +30,7 @@ def fillnull(df):
     print("fill Null values:\n")
     return df
 
+#Data Analysis
 def analyze_data(df):
     print("Average Selling price",df['Selling_Price'].mean())
 
@@ -43,8 +45,8 @@ def analyze_data(df):
 
     return df.sort_values(by='Total_Revenue',ascending=False)
 
-"""def save_data(output_path):
-    df.to_excel(output_path,index=False)"""
+def save_data(output_path):
+    df.to_excel(output_path,index=False)
 
 data = df.groupby('State')['Product_Name'].count()
 data.plot(kind='bar', color='Blue')
@@ -54,7 +56,7 @@ plt.ylabel("Number of Products Sold")
 plt.tight_layout()
 plt.show()
 
-
+#Bar Chart
 def product_total_Revenue(df):
     revenue_by_product = df.groupby('Category')['Total_Revenue'].sum()
     revenue_by_product.plot(kind='pie',autopct='%0.1f%%',title='Product Share by Total Revenue',startangle=90)
@@ -62,10 +64,8 @@ def product_total_Revenue(df):
     plt.tight_layout()
     plt.show()
 
-#Line chart:
 
-
-
+#Pie Chart
 def main(df):
     missing_values(df)
     df=drop_duplicate(df)
@@ -73,9 +73,7 @@ def main(df):
     df=fillnull(df)
     df=analyze_data(df)
     product_total_Revenue(df)
-
-    
-   #save_data('Sales_Forecasting_cleaned.xlsx')
+    save_data('Sales_Forecasting_cleaned.xlsx')
 
 if __name__=="__main__":
     main(df)
