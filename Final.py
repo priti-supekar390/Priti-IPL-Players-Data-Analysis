@@ -45,6 +45,7 @@ def analyze_data(df):
 
 """def save_data(output_path):
     df.to_excel(output_path,index=False)"""
+
 data = df.groupby('State')['Product_Name'].count()
 data.plot(kind='bar', color='Blue')
 plt.title("Product Sales by State")
@@ -54,12 +55,25 @@ plt.tight_layout()
 plt.show()
 
 
+def product_total_Revenue(df):
+    revenue_by_product = df.groupby('Category')['Total_Revenue'].sum()
+    revenue_by_product.plot(kind='pie',autopct='%0.1f%%',title='Product Share by Total Revenue',startangle=90)
+    plt.ylabel('')  
+    plt.tight_layout()
+    plt.show()
+
+#Line chart:
+
+
+
 def main(df):
     missing_values(df)
     df=drop_duplicate(df)
     df=changetype(df)
     df=fillnull(df)
     df=analyze_data(df)
+    product_total_Revenue(df)
+
     
    #save_data('Sales_Forecasting_cleaned.xlsx')
 
