@@ -33,7 +33,6 @@ def changetype(df):
 #4.drop or fill null values
 def simple_fillna(df):
     df = df.fillna(0)
-       
     print("Fill NULL values\n")
     return df
 
